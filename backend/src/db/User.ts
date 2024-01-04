@@ -1,3 +1,4 @@
+import { ModalRefName } from "./ModalName";
 import { Schema, model } from "mongoose";
 interface IUser {
   name: string;
@@ -27,4 +28,4 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-export const User = model<IUser>("user", userSchema);
+export const User = model<IUser>(ModalRefName.USER, userSchema);

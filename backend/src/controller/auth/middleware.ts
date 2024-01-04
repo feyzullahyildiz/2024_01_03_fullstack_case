@@ -16,7 +16,7 @@ export const getBodyValidatorMiddleware = () => {
       if (result.error) {
         throw result.error;
       }
-      res.locals = result.value;
+      req.body = result.value;
       next();
     } catch (error) {
       next(error);
@@ -28,7 +28,7 @@ export const getBodyValidatorMiddleware = () => {
       if (result.error) {
         throw result.error;
       }
-      res.locals = result.value;
+      req.body = result.value;
       next();
     } catch (error) {
       next(error);
