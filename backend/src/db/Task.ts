@@ -1,6 +1,6 @@
 import { ModalRefName } from "./ModalName";
-import { Schema, ObjectId, model } from "mongoose";
-interface ITask {
+import { Schema, ObjectId, model, Document  } from "mongoose";
+export interface ITask extends Document  {
   userId: ObjectId;
   title: string;
   description: string;
@@ -40,3 +40,4 @@ const taskSchema = new Schema<ITask>(
 );
 
 export const Task = model<ITask>(ModalRefName.TASK, taskSchema);
+

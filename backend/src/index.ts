@@ -2,12 +2,18 @@ import { configDotenv } from "dotenv";
 configDotenv();
 import { createApp } from "./app";
 import mongoose from "mongoose";
-import { UserService } from "./service/UserService";
-import { TokenService } from "./service/TokenService";
-import { TaskService } from "./service/TaskService";
+import {
+  TokenServiceImplementation,
+  TaskServiceImplementation,
+  UserServiceImplementation,
+} from "./service/implementation";
 
 const port = process.env.PORT || 3000;
-const app = createApp(new UserService(), new TokenService(), new TaskService());
+const app = createApp(
+  new UserServiceImplementation(),
+  new TokenServiceImplementation(),
+  new TaskServiceImplementation()
+);
 app.listen(port, () => {
   console.log(`server started at http://localhost:${port}`);
 });

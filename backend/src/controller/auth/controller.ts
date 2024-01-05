@@ -2,6 +2,7 @@ import type { LoginRequestHandler, SignUpRequestHandler } from "./types.";
 import { UserService } from "../../service/UserService";
 import { TokenService } from "../../service/TokenService";
 import { UnAuthorizedError } from "../../error";
+import { UserAlreadyExistsError } from "../../error/UserAlreadyExistsError";
 
 export const getController = (
   userService: UserService,
@@ -33,8 +34,19 @@ export const getController = (
     try {
       const { email, name, password } = req.body;
 
+      const isUserAlreadyExists = await userService.isUserExistsByEmail(email);
+      if (isUserAlreadyExists) {
+        throw new UserAlreadyExistsError();
+      }
       const user = await userService.createUser(name, email, password);
-      res.json({ success: true, user });
+      res.json({
+        success: true,
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+      });
     } catch (error) {
       next(error);
     }

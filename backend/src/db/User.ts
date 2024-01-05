@@ -1,6 +1,6 @@
 import { ModalRefName } from "./ModalName";
-import { Schema, model } from "mongoose";
-interface IUser {
+import { Schema, model, Document } from "mongoose";
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
