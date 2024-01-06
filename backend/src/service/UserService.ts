@@ -14,4 +14,5 @@ export abstract class UserService {
 
   abstract hashPassword(rawPassword: string): Promise<string>;
   abstract comparePassword(rawPassword: string, hash: string): Promise<boolean>;
+  abstract getUserById(userId: string): Promise<IUser | null>;
 }

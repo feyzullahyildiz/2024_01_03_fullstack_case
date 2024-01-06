@@ -33,4 +33,7 @@ export class UserServiceImplementation extends UserService {
   comparePassword = async (rawPassword: string, hash: string) => {
     return bcrypt.compare(rawPassword, hash);
   };
+  getUserById = (userId: string) => {
+    return User.findOne({ _id: userId });
+  };
 }

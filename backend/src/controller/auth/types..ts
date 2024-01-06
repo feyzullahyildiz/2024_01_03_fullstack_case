@@ -1,22 +1,21 @@
 import type { RequestHandler } from "express";
-export type LoginRequestHandler = RequestHandler<
+
+type CustomRequestHandler<Body = any> = RequestHandler<
   unknown,
   unknown,
-  {
-    email: string;
-    password: string;
-  },
-  unknown,
-  any
->;
-export type SignUpRequestHandler = RequestHandler<
-  unknown,
+  Body,
   unknown,
   {
-    name: string;
-    email: string;
-    password: string;
-  },
-  unknown,
-  any
+    userId: string;
+  }
 >;
+
+export type LoginRequestHandler = CustomRequestHandler<{
+  email: string;
+  password: string;
+}>;
+export type SignUpRequestHandler = CustomRequestHandler<{
+  name: string;
+  email: string;
+  password: string;
+}>;

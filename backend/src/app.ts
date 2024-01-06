@@ -6,6 +6,7 @@ import { UserService } from "./service/UserService";
 import { TokenService } from "./service/TokenService";
 import { getAuthMiddleware } from "./middleware/auth.middleware";
 import { TaskService } from "./service/TaskService";
+import { getMeRouter } from "./router/me.router";
 
 export const createApp = (
   userService: UserService,
@@ -17,6 +18,7 @@ export const createApp = (
   app.use(cors());
   const authRouter = getAuthRouter(userService, tokenService);
   const taskRouter = getTaskRouter(userService, taskService);
+  const meRouter = getMeRouter(userService, taskService);
   const authMiddleware = getAuthMiddleware(tokenService);
 
   const apiRouter = Router();
@@ -25,6 +27,7 @@ export const createApp = (
   apiRouter.use(authMiddleware);
 
   apiRouter.use("/task", taskRouter);
+  apiRouter.use("/me", meRouter);
   app.use("/api", apiRouter);
   const defaultErrorHandler = getDefaultErrorHandler();
   app.use(defaultErrorHandler);
