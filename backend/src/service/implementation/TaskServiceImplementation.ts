@@ -1,4 +1,4 @@
-import { Task } from "../../db/Task";
+import { ITask, Task } from "../../db/Task";
 import { TaskService } from "../TaskService";
 
 export class TaskServiceImplementation extends TaskService {
@@ -25,6 +25,19 @@ export class TaskServiceImplementation extends TaskService {
       return null;
     }
     await task.deleteOne();
+    return task;
+  };
+  updateStatus = async (
+    userId: string,
+    taskId: string,
+    status: "pending" | "completed"
+  ) => {
+    const task = await Task.findOne({ userId, _id: taskId });
+    if (!task) {
+      return null;
+    }
+    task.status = status;
+    await task.save();
     return task;
   };
 }

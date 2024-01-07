@@ -5,11 +5,13 @@ import {
   Action,
 } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
-import meSlice from "./me/meSlice";
+import meReducer from "./me/meSlice";
+import taskReducer from "./task/taskSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  me: meSlice,
+  me: meReducer,
+  task: taskReducer,
 });
 
 export const store = configureStore({

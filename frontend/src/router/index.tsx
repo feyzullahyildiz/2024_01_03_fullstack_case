@@ -4,6 +4,8 @@ import { DashboardPage } from "../page/dashboard";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { LogoutPage } from "../page/logout";
 import { SignupPage } from "../page/signup";
+import { ListTasksPage } from "../page/dashboard/component/ListTasksPage";
+import { AddTaskPage } from "../page/dashboard/component/AddTaskPage";
 
 export const router = createBrowserRouter([
   {
@@ -25,5 +27,15 @@ export const router = createBrowserRouter([
         <DashboardPage />
       </ProtectedRoute>
     ),
+    children: [
+      {
+        path: "/",
+        element: <ListTasksPage />,
+      },
+      {
+        path: "/add",
+        element: <AddTaskPage />,
+      },
+    ],
   },
 ]);

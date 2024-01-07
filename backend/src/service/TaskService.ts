@@ -10,4 +10,9 @@ export abstract class TaskService {
 
   abstract getTasksByUserId(taskId: string): Promise<ITask[]>;
   abstract deleteById(userId: string, id: string): Promise<ITask | null>;
+  abstract updateStatus(
+    userId: string,
+    taskId: string,
+    status: "pending" | "completed"
+  ): Promise<ITask | null>;
 }

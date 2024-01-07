@@ -10,7 +10,7 @@ interface MeRes {
 }
 export class MeService {
   static async me() {
-    await new Promise((res) => setTimeout(res, 1000));
+    // await new Promise((res) => setTimeout(res, 1000));
     return authenticatedApi.get<MeRes>("/me").then((res) => res.data);
   }
 }

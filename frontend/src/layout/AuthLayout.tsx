@@ -2,8 +2,7 @@ import { Card, Flex } from "antd";
 import React from "react";
 
 interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children?: any;
+  children?: React.ReactNode;
   title: string;
 }
 export const AuthLayout: React.FC<Props> = ({ children, title }) => {

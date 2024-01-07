@@ -2,12 +2,13 @@ import { Button, Flex, Form, Input } from "antd";
 import { useForm } from "react-hook-form";
 import { AuthLayout } from "../../layout/AuthLayout";
 import { FormItem } from "react-hook-form-antd";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useAppDispatch } from "../../redux/hooks";
 import { actionStartSignup } from "../../redux/auth/authApi";
 import { Link, useNavigate } from "react-router-dom";
 import { useNotificationApi } from "../../hooks";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback } from "react";
 
 const formSchema = z.object({
   name: z.string().min(4, "Name must contain at least 4 characters"),
@@ -35,22 +36,25 @@ export const SignupPage = () => {
       password: "",
     },
   });
-  const onSubmit = async (data: FieldType) => {
-    try {
-      await dispatch(
-        actionStartSignup({
-          name: data.name!,
-          email: data.email!,
-          password: data.password!,
-        })
-      ).unwrap();
-      navigate("/login");
-      api.success({ message: "User Created" });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      api.error({ message: error?.message });
-    }
-  };
+  const onSubmit = useCallback(
+    async (data: FieldType) => {
+      try {
+        await dispatch(
+          actionStartSignup({
+            name: data.name!,
+            email: data.email!,
+            password: data.password!,
+          })
+        ).unwrap();
+        navigate("/login");
+        api.success({ message: "User Created" });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        api.error({ message: error?.message });
+      }
+    },
+    [dispatch, api, navigate]
+  );
   return (
     <AuthLayout title="Signup Page">
       <Form

@@ -13,5 +13,6 @@ export const getTaskRouter = (
   router.get("/", controller.getTask);
   router.post("/", middleware.createTask, controller.createTask);
   router.delete("/:id", controller.deleteTask);
+  router.put("/:id/status", middleware.updateTaskStatus, controller.updateTaskStatus);
   return router;
 };

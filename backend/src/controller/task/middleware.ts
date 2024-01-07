@@ -18,8 +18,24 @@ export const getBodyValidatorMiddleware = () => {
       next(error);
     }
   };
+  const updateTaskValidatorSchema = Joi.object({
+    status: Joi.string().required(),
+  });
+  const updateTaskStatus: RequestHandler = (req, res, next) => {
+    try {
+      const result = updateTaskValidatorSchema.validate(req.body);
+      if (result.error) {
+        throw result.error;
+      }
+      req.body = result.value;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
 
   return {
     createTask,
+    updateTaskStatus,
   };
 };

@@ -1,10 +1,16 @@
 import { DashboardLayout } from "../../layout/DashboardLayout";
 
+import styles from "./style.module.css";
+import { Outlet } from "react-router-dom";
+
 export const DashboardPage = () => {
-  console.log('DashboardPage')
+
+
   return (
     <DashboardLayout>
-      <div>DashboardPage</div>
+      <div className={styles.container}>
+        <Outlet />
+      </div>
     </DashboardLayout>
   );
 };

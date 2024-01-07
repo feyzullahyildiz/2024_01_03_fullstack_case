@@ -34,8 +34,7 @@ export const authSlice = createSlice({
         state.login.isFailed = false;
         TokenService.setToken(action.payload.data.token);
       })
-      .addCase(actionStartLogin.rejected, (state, action) => {
-        console.log('action', action);
+      .addCase(actionStartLogin.rejected, (state) => {
         state.login.isLoading = false;
         state.login.isSuccess = false;
         state.login.isFailed = true;

@@ -2,6 +2,7 @@ import type {
   CreateTaskRequestHandler,
   DeleteTaskRequestHandler,
   GetTaskRequestHandler,
+  UpdateTaskRequestHandler,
 } from "./types";
 import { UserService } from "../../service";
 import { TaskService } from "../../service/TaskService";
@@ -48,10 +49,28 @@ export const getController = (
       next(error);
     }
   };
+  const updateTaskStatus: UpdateTaskRequestHandler = async (req, res, next) => {
+    try {
+      const taskId = req.params.id;
+      const userId = res.locals.userId;
+      const result = await taskService.updateStatus(
+        userId,
+        taskId,
+        req.body.status
+      );
+      if (!result) {
+        throw new TaskNotFoundError();
+      }
+      res.json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   return {
     getTask,
     createTask,
     deleteTask,
+    updateTaskStatus,
   };
 };

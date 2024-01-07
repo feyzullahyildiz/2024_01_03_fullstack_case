@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 const { Header, Content } = Layout;
 
 const headerStyle: React.CSSProperties = {
-  color: "#fff",
   height: 64,
   display: "flex",
   gap: "1rem",
   alignItems: "center",
   justifyContent: "flex-end",
+  padding: "2rem",
 };
 
 const contentStyle: React.CSSProperties = {
   textAlign: "center",
   minHeight: 120,
   flex: 1,
-  color: "#fff",
+  padding: "1rem 2rem",
 };
 
 const layoutStyle: React.CSSProperties = {
