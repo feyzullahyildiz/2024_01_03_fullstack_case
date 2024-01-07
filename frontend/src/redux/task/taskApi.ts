@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { authenticatedApi } from "../../service/api";
+import { resolveAxiosError } from "../utils";
 
 interface TaskResponse {
   success: boolean;
@@ -16,10 +17,19 @@ export interface ITask {
   updatedAt: string;
 }
 
-export const actionFetchTasks = createAsyncThunk("api/task", async () => {
-  await new Promise((res) => setTimeout(res, 500));
-  return authenticatedApi.get<TaskResponse>("/task").then((res) => res.data);
-});
+export const actionFetchTasks = createAsyncThunk(
+  "api/task",
+  async (_, thunkApi) => {
+    await new Promise((res) => setTimeout(res, 300));
+    try {
+      return await authenticatedApi
+        .get<TaskResponse>("/task")
+        .then((res) => res.data);
+    } catch (error) {
+      return thunkApi.rejectWithValue(resolveAxiosError(error));
+    }
+  }
+);
 
 type CreateParams = {
   title: string;
@@ -28,10 +38,14 @@ type CreateParams = {
 };
 export const actionCreateTask = createAsyncThunk(
   "api/task/create",
-  async (params: CreateParams) => {
-    return authenticatedApi
-      .post<TaskResponse>("/task", params)
-      .then((res) => res.data);
+  async (params: CreateParams, thunkApi) => {
+    try {
+      return await authenticatedApi
+        .post<TaskResponse>("/task", params)
+        .then((res) => res.data);
+    } catch (error) {
+      return thunkApi.rejectWithValue(resolveAxiosError(error));
+    }
   }
 );
 
@@ -40,10 +54,14 @@ type DeleteParams = {
 };
 export const actionDeleteTask = createAsyncThunk(
   "api/task/delete",
-  (params: DeleteParams) => {
-    return authenticatedApi
-      .delete<TaskResponse>(`/task/${params.id}`)
-      .then((res) => res.data);
+  async (params: DeleteParams, thunkApi) => {
+    try {
+      return await authenticatedApi
+        .delete<TaskResponse>(`/task/${params.id}`)
+        .then((res) => res.data);
+    } catch (error) {
+      return thunkApi.rejectWithValue(resolveAxiosError(error));
+    }
   }
 );
 type UpdateParams = {
@@ -52,9 +70,15 @@ type UpdateParams = {
 };
 export const actionUpdateStatusTask = createAsyncThunk(
   "api/task/update/status",
-  (params: UpdateParams) => {
-    return authenticatedApi
-      .put<TaskResponse>(`/task/${params.id}/status`, { status: params.status })
-      .then((res) => res.data);
+  async (params: UpdateParams, thunkApi) => {
+    try {
+      return await authenticatedApi
+        .put<TaskResponse>(`/task/${params.id}/status`, {
+          status: params.status,
+        })
+        .then((res) => res.data);
+    } catch (error) {
+      return thunkApi.rejectWithValue(resolveAxiosError(error));
+    }
   }
 );

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../service/api";
-import { isAxiosError } from "axios";
+import { resolveAxiosError } from "../utils";
 
 type LoginParams = { email: string; password: string };
 
@@ -13,16 +13,14 @@ export const actionStartLogin = createAsyncThunk(
   "/api/auth/login",
   async ({ email, password }: LoginParams, thunkApi) => {
     try {
-      return await api.post<LoginRes>("/auth/login", {
-        email,
-        password,
-      });
+      return await api
+        .post<LoginRes>("/auth/login", {
+          email,
+          password,
+        })
+        .then((res) => res.data);
     } catch (error) {
-      if (isAxiosError(error)) {
-        const err = error.response?.data || error;
-        return thunkApi.rejectWithValue(err);
-      }
-      throw error;
+      return thunkApi.rejectWithValue(resolveAxiosError(error));
     }
   }
 );
@@ -32,17 +30,15 @@ export const actionStartSignup = createAsyncThunk(
   "/api/auth/signup",
   async ({ name, email, password }: SignupParams, thunkApi) => {
     try {
-      return await api.post("/auth/signup", {
-        name,
-        email,
-        password,
-      });
+      return await api
+        .post("/auth/signup", {
+          name,
+          email,
+          password,
+        })
+        .then((res) => res.data);
     } catch (error) {
-      if (isAxiosError(error)) {
-        const err = error.response?.data || error;
-        return thunkApi.rejectWithValue(err);
-      }
-      throw error;
+      return thunkApi.rejectWithValue(resolveAxiosError(error));
     }
   }
 );

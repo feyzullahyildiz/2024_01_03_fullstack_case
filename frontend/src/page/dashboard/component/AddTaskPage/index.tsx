@@ -14,7 +14,9 @@ import { actionCreateTask } from "../../../../redux/task/taskApi";
 import { useNotificationApi } from "../../../../hooks";
 const formSchema = z.object({
   title: z.string().min(4, "Name must contain at least 4 characters"),
-  description: z.string().min(1, "Description must contain at least 1 characters"),
+  description: z
+    .string()
+    .min(1, "Description must contain at least 1 characters"),
   dueDate: z.instanceof(dayjs as unknown as typeof Dayjs),
 });
 
@@ -49,8 +51,9 @@ export const AddTaskPage = () => {
         ).unwrap();
         api.success({ message: "Task Created" });
         navigate("/");
-      } catch (error) {
-        api.error({ message: "Task NOT Created" });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        api.error({ message: error?.message });
       }
     },
     [dispatch, api, navigate]

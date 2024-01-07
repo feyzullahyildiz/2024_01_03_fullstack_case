@@ -22,6 +22,10 @@ const dateRenderFunction = (val: string) => {
 
   return `${YYYY}-${MM}-${dd} ${hh}:${mm}:${ss}`;
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getSorterFunction = (key: string) => (a: any, b: any) => {
+  return a[key] > b[key] ? 1 : -1;
+};
 export const ListTasksPage = () => {
   const api = useNotificationApi();
   const dispatch = useAppDispatch();
@@ -41,8 +45,9 @@ export const ListTasksPage = () => {
         await dispatch(actionDeleteTask({ id })).unwrap();
         await dispatch(actionFetchTasks()).unwrap();
         api.success({ message: "Task Deleted" });
-      } catch (error) {
-        api.error({ message: "Task NOT Deleted successfully" });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        api.error({ message: error?.message });
       }
     },
     [dispatch, api]
@@ -53,8 +58,9 @@ export const ListTasksPage = () => {
         await dispatch(actionUpdateStatusTask({ id, status })).unwrap();
         await dispatch(actionFetchTasks()).unwrap();
         api.success({ message: "Task Updated" });
-      } catch (error) {
-        api.error({ message: "Task NOT Updated successfully" });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        api.error({ message: error?.message });
       }
     },
     [dispatch, api]
@@ -67,16 +73,30 @@ export const ListTasksPage = () => {
           title: "Title",
           dataIndex: "title",
           key: "title",
+          sorter: getSorterFunction("title"),
         },
         {
           title: "Description",
           dataIndex: "description",
           key: "description",
+          sorter: getSorterFunction("description"),
         },
         {
           title: "Status",
           dataIndex: "status",
           key: "status",
+          sorter: getSorterFunction("status"),
+          onFilter: (value, record) => record.status === value,
+          filters: [
+            {
+              text: "Pending",
+              value: "pending",
+            },
+            {
+              text: "Completed",
+              value: "completed",
+            },
+          ],
           render: (status: string, { _id }) => {
             const nextStatusValue =
               status === "pending" ? "completed" : "pending";
@@ -90,7 +110,7 @@ export const ListTasksPage = () => {
                   <Flex vertical>
                     <span>Are you sure to update the task's status?</span>
                     <span>
-                      Status will from <strong>{status}</strong> to{" "}
+                      Status will be from <strong>{status}</strong> to{" "}
                       <strong>{nextStatusValue}</strong>
                     </span>
                   </Flex>
@@ -109,18 +129,21 @@ export const ListTasksPage = () => {
           title: "DueDate",
           dataIndex: "dueDate",
           key: "dueDate",
+          sorter: getSorterFunction("dueDate"),
           render: dateRenderFunction,
         },
         {
           title: "CreatedAt",
           dataIndex: "createdAt",
           key: "createdAt",
+          sorter: getSorterFunction("createdAt"),
           render: dateRenderFunction,
         },
         {
           title: "UpdatedAt",
           dataIndex: "updatedAt",
           key: "updatedAt",
+          sorter: getSorterFunction("updatedAt"),
           render: dateRenderFunction,
         },
         {
