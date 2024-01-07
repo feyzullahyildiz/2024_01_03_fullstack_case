@@ -11,6 +11,7 @@ export const createTestApp = (opt: Options) => {
     createTask: jest.fn(),
     deleteById: jest.fn(),
     getTasksByUserId: jest.fn(),
+    updateStatus: jest.fn(),
   };
   const userService = {
     createUser: jest.fn(),
@@ -18,6 +19,7 @@ export const createTestApp = (opt: Options) => {
     isUserExistsByEmail: jest.fn(),
     hashPassword: jest.fn(),
     comparePassword: jest.fn(),
+    getUserById: jest.fn(),
   };
   return createApp(userService, new TokenServiceImplementation(), taskService);
 };

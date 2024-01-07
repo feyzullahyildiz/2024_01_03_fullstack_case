@@ -5,7 +5,9 @@ export class TokenServiceImplementation extends TokenService {
     const payload = {
       id: userId,
     };
-    const token = await jwt.sign(payload, this.getSecret());
+    const token = await jwt.sign(payload, this.getSecret(), {
+      expiresIn: "1d",
+    });
     return token;
   };
 
