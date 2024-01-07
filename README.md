@@ -1,5 +1,27 @@
 [The Assessment](./Assessment.md)
 
+# HOW TO START APP
+- With Docker (recommended)
+  - `docker-compose up mongo backend nginx`
+  - open [http://localhost:8080](http://localhost:8080)
+- Development mode
+  - For Backend
+    - `cd backend`
+    - `cp conf.env .env`
+    - modify your `backend/.env` file. `MONGODB_URL` is required. Provide a valid MongoDB URL
+    - `npm run dev`
+    - Backend should be available at port 3000. Go to [http://localhost:3000](http://localhost:3000)
+  - For Frontend
+    - `cd frontend`
+    - `cp conf.env .env`
+    - make sure `frontend/.env` file has `VITE_API_BASE_URL` key-value pair. It should be like this.
+      ```
+      VITE_API_BASE_URL=http://localhost:3000/api
+      ```
+    - `npm run dev`
+    - [http://localhost:5173/](http://localhost:5173/)
+
+
 ## Notes About Implementations
 
 - There is only one token and it is only for the access. (No refresh token provided)
