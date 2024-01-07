@@ -14,6 +14,9 @@ export const createApp = (
   taskService: TaskService
 ) => {
   const app = express();
+  app.set("userService", userService);
+  app.set("tokenService", tokenService);
+  app.set("taskService", taskService);
   app.use(express.json());
   app.use(cors());
   const authRouter = getAuthRouter(userService, tokenService);
@@ -24,10 +27,12 @@ export const createApp = (
   const apiRouter = Router();
   apiRouter.use("/auth", authRouter);
 
+  // Authentication control is here.
   apiRouter.use(authMiddleware);
 
   apiRouter.use("/task", taskRouter);
   apiRouter.use("/me", meRouter);
+
   app.use("/api", apiRouter);
   const defaultErrorHandler = getDefaultErrorHandler();
   app.use(defaultErrorHandler);
