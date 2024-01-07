@@ -13,8 +13,7 @@
     - Backend should be available at port 3000. Go to [http://localhost:3000](http://localhost:3000)
   - For Frontend
     - `cd frontend`
-    - `cp conf.env .env`
-    - make sure `frontend/.env` file has `VITE_API_BASE_URL` key-value pair. It should be like this.
+    - make sure `frontend/.env` file has `VITE_API_BASE_URL` key-value pair in it. It should be like this.
       ```
       VITE_API_BASE_URL=http://localhost:3000/api
       ```
